@@ -1,6 +1,6 @@
 <?php
 /*
- * Safe and simple PDO Db class.
+ * Safe and simple PHP PDO Database class.
  *
  * @author      nikiedev <nikiedev@mail.ru>
  * @copyright   (©) 2018

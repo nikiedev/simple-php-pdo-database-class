@@ -1,4 +1,4 @@
-Db class -- Simple PDO wrapper with prepared statements
+`Db class - Simple PDO wrapper with prepared statements`
 <hr>
 
 ## PDO Database

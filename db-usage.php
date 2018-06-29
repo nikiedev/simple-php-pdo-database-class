@@ -73,7 +73,14 @@ echo $res;
 //        ]
 //);
 //not tested
-//$db->createTable('comment', '');
+/*$db->createTable("CREATE TABLE IF NOT EXISTS users (
+             id INT(11) NOT NULL AUTO_INCREMENT,
+             firstName VARCHAR(255) NOT NULL,
+             lastName VARCHAR(255) NOT NULL,
+             email VARCHAR(255) NOT NULL,
+             PRIMARY KEY (id))"
+);*/
+
 // works
 //$db->dropDatabase('comments');
 

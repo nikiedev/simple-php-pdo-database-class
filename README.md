@@ -1,4 +1,5 @@
-# Safe and simple PHP PDO Database class
+`Safe and simple PHP PDO Database class`
+<hr>
 
 ## PHP PDO Db Wrapper with prepared statements
 

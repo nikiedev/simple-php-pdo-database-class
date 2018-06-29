@@ -8,7 +8,7 @@ Db class -- Simple PDO wrapper with prepared statements
 **[Initialization](#initialization)**  
 **[Select Query](#select-query)**  
 **[Insert Query](#insert-query)**  
-**[InsertMultiple Query](#insertMultiple-query)**  
+**[Insert Multiple Query](#insert-multiple-query)**  
 **[Update Query](#update-query)**  
 **[Delete Query](#delete-query)**  
 **[Create database](#create-database)**  
@@ -117,7 +117,7 @@ $db->onDuplicate($updateColumns, $lastInsertId);
 $id = $db->insert ('users', $data);
 ```
 
-### InsertMultiple Query
+### Insert Multiple Query
 Insert multiple datasets at once
 ```php
 $data = Array(

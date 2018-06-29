@@ -1,14 +1,4 @@
 <?php
-/*
-define('DB_TYPE', 'mysql');
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'my_db');
-define('DB_USER', 'root');
-define('DB_PASS', 'password');
-
-$this->db = new Database(DB_TYPE, DB_HOST, DB_NAME, DB_USER, DB_PASS);
-
- */
 
 use lib\Db;
 

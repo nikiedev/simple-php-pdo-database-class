@@ -1,7 +1,7 @@
-# Safe and simple PDO Database class with prepared statements
+# Safe and simple PHP PDO Database class
 <hr>
 
-## PHP PDO Db Wrapper
+## PHP PDO Db Wrapper with prepared statements
 
 ### Table of Contents
 

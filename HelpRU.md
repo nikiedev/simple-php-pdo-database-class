@@ -16,7 +16,7 @@
 
 ### Содержание
 
-**[Installation](#installation)** 
+**[Installation](#installation)**  
 **[Initialization](#initialization)**  
 **[Select](#select)**  
 **[Insert](#insert)**  

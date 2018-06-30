@@ -16,7 +16,7 @@ Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> 
 
 ### Table of Contents
 
-**[Installation](#installation)** 
+**[Installation](#installation)**  
 **[Initialization](#initialization)**  
 **[Select](#select)**  
 **[Insert](#insert)**  

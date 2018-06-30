@@ -56,12 +56,22 @@ class Db
 			$dsn .= ';dbname=' . $name;
 		}
 		$dsn       .= ';charset=' . $charset;
-		$this->dbh = new \PDO(
-			$dsn, $user, $pass, [
-				\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-				\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
-			]
-		);
+		try
+		{
+			$this->dbh = new \PDO(
+				$dsn, $user, $pass, [
+					\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+					\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC
+				]
+			);
+		}
+		catch (\PDOException $e)
+		{
+			error_log($e);
+
+			return false;
+		}
+
 	}
 
 	/**
@@ -108,7 +118,7 @@ class Db
 	 */
 	public function connectDatabase($database)
 	{
-		$sql_str     = "USE `" . $database . "`;";
+		$sql_str     = 'USE ' . $database;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -129,7 +139,7 @@ class Db
 	 */
 	public function createDatabase($database)
 	{
-		$sql_str     = "CREATE DATABASE IF NOT EXISTS `" . $database . "`;";
+		$sql_str     = 'CREATE DATABASE IF NOT EXISTS ' . $database;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -162,27 +172,27 @@ class Db
 	public function select($table, $where = [], $limit = null, $start = null, $order_by = [])
 	{
 		// building query string
-		$sql_str = "SELECT ";
+		$sql_str = 'SELECT ';
 
 		if (is_array($table))
 		{
 			if (is_array($table[1]))
 			{
-				$sql_str .= implode(', ', $table[1]) . " FROM ";
+				$sql_str .= implode(', ', $table[1]) . ' FROM ';
 			}
 			else
 			{
-				$sql_str .= $table[1] . " FROM ";
+				$sql_str .= $table[1] . ' FROM ';
 			}
 			$sql_str .= $table[0];
 		}
 		else
 		{
-			$sql_str .= " * FROM " . $table;
+			$sql_str .= ' * FROM ' . $table;
 		}
 
 		// append WHERE if necessary
-		$sql_str .= (count($where) > 0 ? " WHERE " : "");
+		$sql_str .= (count($where) > 0 ? ' WHERE ' : '');
 
 		$add_and = false;
 		// add each clause using parameter array
@@ -196,7 +206,7 @@ class Db
 			// only add AND after the first clause item has been appended
 			if ($add_and)
 			{
-				$sql_str .= " AND ";
+				$sql_str .= ' AND ';
 			}
 			else
 			{
@@ -204,25 +214,25 @@ class Db
 			}
 
 			// append clause item
-			$sql_str .= $key . " = :" . $key;
+			$sql_str .= $key . ' = :' . $key;
 		}
 
 		// add the order by clause if we have one
 		if (!empty($order_by))
 		{
-			$sql_str   .= " ORDER BY";
+			$sql_str   .= ' ORDER BY';
 			$add_comma = false;
 			foreach ($order_by as $column => $order)
 			{
 				if ($add_comma)
 				{
-					$sql_str .= ", ";
+					$sql_str .= ', ';
 				}
 				else
 				{
 					$add_comma = true;
 				}
-				$sql_str .= " " . $column . " " . $order;
+				$sql_str .= ' ' . $column . ' ' . $order;
 			}
 		}
 
@@ -233,12 +243,12 @@ class Db
 			$pdoDriver = $this->dbh->getAttribute(\PDO::ATTR_DRIVER_NAME);
 
 			//@TODO MS SQL Server & Oracle handle LIMITs differently, for now its disabled but we should address it later.
-			$disableLimit = ["sqlsrv", "mssql", "oci"];
+			$disableLimit = ['sqlsrv', 'mssql', 'oci'];
 
 			// add the limit clause if we have one
 			if (!is_null($limit) and !in_array($pdoDriver, $disableLimit))
 			{
-				$sql_str .= " LIMIT " . (!is_null($start) ? $start . ", " : "") . $limit;
+				$sql_str .= ' LIMIT ' . (!is_null($start) ? $start . ', ' : '') . $limit;
 			}
 
 			$this->query = $this->dbh->prepare($sql_str);
@@ -516,7 +526,7 @@ class Db
 		}
 
 		// build final update string
-		$sql_str = "UPDATE `" . $table . "` SET " . $set_string . $where_string;
+		$sql_str = 'UPDATE ' . $table . ' SET ' . $set_string . $where_string;
 
 		// now we attempt to write this row into the database
 		try
@@ -615,7 +625,7 @@ class Db
 	 */
 	public function truncateTable($table)
 	{
-		$sql_str     = "TRUNCATE TABLE `" . $table . "`;";
+		$sql_str     = 'TRUNCATE TABLE ' . $table;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -628,7 +638,7 @@ class Db
 	 */
 	public function dropTable($table)
 	{
-		$sql_str     = "DROP TABLE `" . $table . "`;";
+		$sql_str     = 'DROP TABLE ' . $table;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -641,7 +651,7 @@ class Db
 	 */
 	public function dropDatabase($database)
 	{
-		$sql_str     = "DROP DATABASE `" . $database . "`";
+		$sql_str     = 'DROP DATABASE' . $database;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();

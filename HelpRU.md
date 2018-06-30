@@ -24,6 +24,7 @@ See <a href='HelpEN.md'>English manual</a> for more information
 **[Drop database](#drop-database)**  
 **[Drop table](#drop-table)**  
 
+
 ### Installation
 
 - Import Db.class.php into your project, and require it:
@@ -63,16 +64,6 @@ You can add a prefix of your database:
 ```php
 $db->setPrefix ('my_');
 ```
-
-### Documentation
-
-`English`
-
-See <a href='HelpRU.md'>dbObject manual for more information</a>
-
-`Russian`
-
-See <a href='HelpRU.md'>dbObject manual for more information</a>
 
 ### Insert Query
 Simple example

@@ -24,9 +24,6 @@ See <a href='HelpRU.md'>Russian manual</a> for more information
 **[Drop database](#drop-database)**  
 **[Drop table](#drop-table)**  
 
-## Support Me
-
-This is an open-source software. If you have any ideas how to make it better - please tell us.
 
 ### Installation
 

@@ -8,15 +8,8 @@ spl_autoload_register();
 
 $db = new Db();
 $db->connectDatabase('articles');
-// select all
+
 $selectAllFields = $db->select('article');
-foreach ($selectAllFields as $rows) {
-	echo '<p>';
-	foreach ($rows as $col_k => $col_v) {
-		echo $col_k . ': ' . $col_v . '<br>';
-	}
-	echo '</p>';
-}
 //$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
 
 //$insertOneRow = $db->insert('article', ['id' => null, 'title' => 'Заголовок № 10', 'content' => 'Тут текст записи № 10.']);
@@ -46,7 +39,7 @@ foreach ($selectAllFields as $rows) {
 ?>
 
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -56,15 +49,19 @@ foreach ($selectAllFields as $rows) {
 	<title>Document</title>
 </head>
 <body>
-<!---->
-<?php //foreach ($res as $r): ?>
-<?php //foreach ($r as $i): ?>
-<?php //echo $i . ' '; ?>
-<?php //endforeach; ?>
-<?php //echo '<br><br>'; ?>
-<?php //endforeach; ?>
 
 <?php
+
+foreach ($selectAllFields as $rows): ?>
+<p>
+    <?php foreach ($rows as $col_k => $col_v): ?>
+    <?php echo $col_k . ': ' . $col_v . '<br>'; ?>
+    <?php endforeach; ?>
+</p>
+<?php endforeach; ?>
+
+<?php
+
 echo '<br><hr>';
 
 // работает

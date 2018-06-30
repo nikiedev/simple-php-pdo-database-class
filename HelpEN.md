@@ -21,8 +21,8 @@ Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> 
 **[Select](#select)**  
 **[Insert](#insert)**  
 **[Insert Multiple](#insert-multiple)**  
-**[Update Query](#update)**  
-**[Delete Query](#delete)**  
+**[Update](#update)**  
+**[Delete](#delete)**  
 **[Create Database](#create-database)**  
 **[Create Table](#create-table)**  
 **[Truncate Table](#truncate-table)**  
@@ -71,6 +71,7 @@ $db->setPrefix ('my_');
 ```
 
 ### Select
+
 select title and content columns 
 ```php
 $selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
@@ -95,6 +96,7 @@ foreach ($article as $k => $v)
 ```
 
 ### Insert
+
 Simple example
 ```php
 $data = Array ("login" => "admin",
@@ -144,6 +146,7 @@ $id = $db->insert ('users', $data);
 ```
 
 ### Insert Multiple
+
 Insert multiple datasets at once
 ```php
 $data = Array(
@@ -182,6 +185,7 @@ if(!$ids) {
 ```
 
 ### Update
+
 ```php
 $data = Array (
 	'firstName' => 'Bobby',
@@ -205,6 +209,7 @@ $db->update ('users', $data, 10);
 ```
 
 ### Delete
+
 ```php
 $db->delete('id', 1);
 ```
@@ -217,6 +222,7 @@ if($db->delete('article', ['id' => 1]))
 ```
 
 ### Create Database
+
 ```php
 $db->createDatabase('articles');
 ```
@@ -229,6 +235,7 @@ if($db->createDatabase('articles'))
 ```
 
 ### Create Table
+
 ```php
 $db->createTable("CREATE TABLE IF NOT EXISTS users (
              id INT(11) NOT NULL AUTO_INCREMENT,
@@ -253,6 +260,7 @@ if($db->createTable($sql))
 ```
 
 ### Truncate Table
+
 ```php
 $db->truncateTable('article');
 ```
@@ -265,6 +273,7 @@ if($db->truncateTable('article'))
 ```
 
 ### Drop Database
+
 ```php
 $db->dropDatabase('articles');
 ```
@@ -277,6 +286,7 @@ if($db->dropDatabase('articles'))
 ```
 
 ### Drop Table
+
 ```php
 $db->dropTable('article');
 ```

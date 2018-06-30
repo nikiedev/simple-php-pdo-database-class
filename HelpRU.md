@@ -16,21 +16,21 @@
 
 ### Содержание
 
-**[Установка](#установка)** 
-**[Инициализация](#инициализация)**  
-**[Выборка](#выборка)**  
-**[Вставка](#вставка)**  
-**[Вставка нескольких строк](#вставка-нескольких-строк)**  
-**[Обновление](#обновление)**  
-**[Удаление](#удаление)**  
-**[Создать Базу Данных](#создать-базу-данных)**  
-**[Создать Таблицу](#создать-таблицу)**  
-**[Очистить Таблицу](#очистить-таблицу)**  
-**[Удалить Базу Данных](#удалить-базу-данных)**  
-**[Удалить Таблицу](#удалить-таблицу)**  
+**[Installation](#installation)** 
+**[Initialization](#initialization)**  
+**[Select](#select)**  
+**[Insert](#insert)**  
+**[Insert Multiple](#insert-multiple)**  
+**[Update](#update)**  
+**[Delete](#delete)**  
+**[Create Database](#create-database)**  
+**[Create Table](#create-table)**  
+**[Truncate Table](#truncate-table)**  
+**[Drop Database](#drop-database)**  
+**[Drop Table](#drop-table)**  
 
 
-### Установка
+### Installation
 
 - Import Db.class.php into your project, and require it:
 
@@ -51,7 +51,7 @@ spl_autoload_register();
 use lib\Db;
 ```
 
-### Инициализация
+### Initialization
 
 Simple initialization with utf8 charset set by default:
 ```php
@@ -70,7 +70,8 @@ You can add a prefix of your database:
 $db->setPrefix ('my_');
 ```
 
-### Выборка
+### Select
+
 select title and content columns 
 ```php
 $selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
@@ -94,7 +95,8 @@ foreach ($article as $k => $v)
 }
 ```
 
-### Вставка
+### Insert
+
 Simple example
 ```php
 $data = Array ("login" => "admin",
@@ -143,7 +145,8 @@ $db->onDuplicate($updateColumns, $lastInsertId);
 $id = $db->insert ('users', $data);
 ```
 
-### Вставка нескольких строк
+### Insert Multiple
+
 Insert multiple datasets at once
 ```php
 $data = Array(
@@ -181,7 +184,8 @@ if(!$ids) {
 }
 ```
 
-### Обновление
+### Update
+
 ```php
 $data = Array (
 	'firstName' => 'Bobby',
@@ -204,7 +208,8 @@ $db->update ('users', $data, 10);
 // Gives: UPDATE users SET ... LIMIT 10
 ```
 
-### Удаление
+### Delete
+
 ```php
 $db->delete('id', 1);
 ```
@@ -216,7 +221,8 @@ if($db->delete('article', ['id' => 1]))
 }
 ```
 
-### Создать Базу Данных
+### Create Database
+
 ```php
 $db->createDatabase('articles');
 ```
@@ -228,7 +234,8 @@ if($db->createDatabase('articles'))
 }
 ```
 
-### Создать Таблицу
+### Create Table
+
 ```php
 $db->createTable("CREATE TABLE IF NOT EXISTS users (
              id INT(11) NOT NULL AUTO_INCREMENT,
@@ -252,7 +259,8 @@ if($db->createTable($sql))
 }
 ```
 
-### Очистить Таблицу
+### Truncate Table
+
 ```php
 $db->truncateTable('article');
 ```
@@ -264,7 +272,8 @@ if($db->truncateTable('article'))
 }
 ```
 
-### Удалить Базу Данных
+### Drop Database
+
 ```php
 $db->dropDatabase('articles');
 ```
@@ -276,7 +285,8 @@ if($db->dropDatabase('articles'))
 }
 ```
 
-### Удалить Таблицу
+### Drop Table
+
 ```php
 $db->dropTable('article');
 ```

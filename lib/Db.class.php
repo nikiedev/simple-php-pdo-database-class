@@ -191,11 +191,11 @@ class Db
 			{
 				$sql_str .= $table[1] . ' FROM ';
 			}
-			$sql_str .= $table[0];
+			$sql_str .= $this->prefix . $table[0];
 		}
 		else
 		{
-			$sql_str .= ' * FROM ' . $table;
+			$sql_str .= ' * FROM ' . $this->prefix . $table;
 		}
 
 		$add_and = false;
@@ -347,7 +347,7 @@ class Db
 		$values_str  .= ')';
 
 		// build final insert string
-		$sql_str = 'INSERT INTO ' . $table . $columns_str . $values_str;
+		$sql_str = 'INSERT INTO ' . $this->prefix . $table . $columns_str . $values_str;
 
 		// now we attempt to write this row into the database
 		try
@@ -444,7 +444,7 @@ class Db
 		}
 
 		// build final insert string
-		$sql_str = 'INSERT INTO ' . $table . $columns_str . $values_str;
+		$sql_str = 'INSERT INTO ' . $this->prefix . $table . $columns_str . $values_str;
 
 		// now we attempt to write this multi insert query to the database using a transaction
 		try
@@ -534,7 +534,7 @@ class Db
 		}
 
 		// build final update string
-		$sql_str = 'UPDATE ' . $table . ' SET ' . $set_string . $where_string;
+		$sql_str = 'UPDATE ' . $this->prefix . $table . ' SET ' . $set_string . $where_string;
 
 		// now we attempt to write this row into the database
 		try
@@ -579,7 +579,7 @@ class Db
 	public function delete($table, $params = [])
 	{
 		// building query string
-		$sql_str = 'DELETE FROM ' . $table;
+		$sql_str = 'DELETE FROM ' . $this->prefix . $table;
 		// append WHERE if necessary
 		$sql_str .= (count($params) > 0 ? ' WHERE ' : '');
 
@@ -633,7 +633,7 @@ class Db
 	 */
 	public function truncateTable($table)
 	{
-		$sql_str     = 'TRUNCATE TABLE ' . $table;
+		$sql_str     = 'TRUNCATE TABLE ' . $this->prefix . $table;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -646,7 +646,7 @@ class Db
 	 */
 	public function dropTable($table)
 	{
-		$sql_str     = 'DROP TABLE ' . $table;
+		$sql_str     = 'DROP TABLE ' . $this->prefix . $table;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();

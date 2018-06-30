@@ -298,4 +298,4 @@ if($db->dropTable('article'))
 }
 ```
 
-**[Наверх](#installation)** 
+**[Наверх](#PHP-PDO-Db-Wrapper-with-prepared-statements)** 

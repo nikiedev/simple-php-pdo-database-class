@@ -3,6 +3,13 @@
 
 ## PHP PDO Db Wrapper with prepared statements
 
+
+### Documentation
+
+`Russian`
+
+See <a href='HelpRU.md'>Russian manual</a> for more information
+
 ### Table of Contents
 
 **[Initialization](#initialization)**  
@@ -60,16 +67,6 @@ You can add a prefix of your database:
 ```php
 $db->setPrefix ('my_');
 ```
-
-### Documentation
-
-`English`
-
-See <a href='HelpEN.md'>English manual</a> for more information
-
-`Russian`
-
-See <a href='HelpRU.md'>Russian manual</a> for more information
 
 ### Insert Query
 Simple example

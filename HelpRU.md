@@ -3,6 +3,13 @@
 
 ## PHP PDO Db Wrapper with prepared statements
 
+
+### Documentation
+
+`English`
+
+See <a href='HelpEN.md'>English manual</a> for more information
+
 ### Table of Contents
 
 **[Initialization](#initialization)**  
@@ -16,10 +23,6 @@
 **[Truncate table](#truncate-table)**  
 **[Drop database](#drop-database)**  
 **[Drop table](#drop-table)**  
-
-## Support Me
-
-This is an open-source software. If you have any ideas how to make it better - please tell us.
 
 ### Installation
 
@@ -65,11 +68,11 @@ $db->setPrefix ('my_');
 
 `English`
 
-See <a href='HelpEN.md'>English manual</a> for more information
+See <a href='HelpRU.md'>dbObject manual for more information</a>
 
 `Russian`
 
-See <a href='HelpRU.md'>Russian manual</a> for more information
+See <a href='HelpRU.md'>dbObject manual for more information</a>
 
 ### Insert Query
 Simple example

@@ -4,7 +4,7 @@
 ## PHP PDO Db Wrapper with prepared statements
 
 
-### Documentation
+### Other links
 
 `Russian`
 
@@ -16,17 +16,18 @@ Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> 
 
 ### Table of Contents
 
+**[Installation](#installation)** 
 **[Initialization](#initialization)**  
-**[Select Query](#select-query)**  
-**[Insert Query](#insert-query)**  
-**[Insert Multiple Query](#insert-multiple-query)**  
-**[Update Query](#update-query)**  
-**[Delete Query](#delete-query)**  
-**[Create database](#create-database)**  
-**[Create table](#create-table)**  
-**[Truncate table](#truncate-table)**  
-**[Drop database](#drop-database)**  
-**[Drop table](#drop-table)**  
+**[Select](#select)**  
+**[Insert](#insert)**  
+**[Insert Multiple](#insert-multiple)**  
+**[Update Query](#update)**  
+**[Delete Query](#delete)**  
+**[Create Database](#create-database)**  
+**[Create Table](#create-table)**  
+**[Truncate Table](#truncate-table)**  
+**[Drop Database](#drop-database)**  
+**[Drop Table](#drop-table)**  
 
 
 ### Installation
@@ -69,7 +70,31 @@ You can add a prefix of your database:
 $db->setPrefix ('my_');
 ```
 
-### Insert Query
+### Select
+select title and content columns 
+```php
+$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
+```
+select all from the table
+```php
+$selectAll = $db->select('tableName');
+```
+
+or select just one row
+
+```php
+$select = $db->select('tableName', ['id' => 1]);
+```
+example of use:
+```php
+$article = $db->select('article', ['id' => 1])) 
+foreach ($article as $k => $v)
+{
+    echo '<p>' . $k . ': ' . $v . '</p>';
+}
+```
+
+### Insert
 Simple example
 ```php
 $data = Array ("login" => "admin",
@@ -118,7 +143,7 @@ $db->onDuplicate($updateColumns, $lastInsertId);
 $id = $db->insert ('users', $data);
 ```
 
-### Insert Multiple Query
+### Insert Multiple
 Insert multiple datasets at once
 ```php
 $data = Array(
@@ -156,7 +181,7 @@ if(!$ids) {
 }
 ```
 
-### Update Query
+### Update
 ```php
 $data = Array (
 	'firstName' => 'Bobby',
@@ -179,31 +204,7 @@ $db->update ('users', $data, 10);
 // Gives: UPDATE users SET ... LIMIT 10
 ```
 
-### Select Query
-select title and content columns 
-```php
-$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
-```
-select all from the table
-```php
-$selectAll = $db->select('tableName');
-```
-
-or select just one row
-
-```php
-$select = $db->select('tableName', ['id' => 1]);
-```
-example of use:
-```php
-$article = $db->select('article', ['id' => 1])) 
-foreach ($article as $k => $v)
-{
-    echo '<p>' . $k . ': ' . $v . '</p>';
-}
-```
-
-### Delete Query
+### Delete
 ```php
 $db->delete('id', 1);
 ```
@@ -286,3 +287,5 @@ if($db->dropTable('article'))
     echo 'Table article successfully deleted!';
 }
 ```
+
+**[To Top](#table-of-contents)** 

@@ -4,32 +4,33 @@
 ## PHP PDO Db Wrapper with prepared statements
 
 
-### Documentation
+### Другие ссылки
 
 `English`
 
-See <a href='HelpEN.md'>English manual</a> for more information
+Смотрите <a href='HelpEN.md'>Английскую документацию</a> чтобы получить больше информации
 
-`Homepage`
+`Главная`
 
-Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> to the main page
+Вернуться <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>назад</a> на главную страницу
 
-### Table of Contents
+### Содержание
 
-**[Initialization](#initialization)**  
-**[Select Query](#select-query)**  
-**[Insert Query](#insert-query)**  
-**[Insert Multiple Query](#insert-multiple-query)**  
-**[Update Query](#update-query)**  
-**[Delete Query](#delete-query)**  
-**[Create database](#create-database)**  
-**[Create table](#create-table)**  
-**[Truncate table](#truncate-table)**  
-**[Drop database](#drop-database)**  
-**[Drop table](#drop-table)**  
+**[Установка](#установка)** 
+**[Инициализация](#инициализация)**  
+**[Выборка](#выборка)**  
+**[Вставка](#вставка)**  
+**[Вставка нескольких строк](#вставка-нескольких-строк)**  
+**[Обновление](#обновление)**  
+**[Удаление](#удаление)**  
+**[Создать Базу Данных](#создать-базу-данных)**  
+**[Создать Таблицу](#создать-таблицу)**  
+**[Очистить Таблицу](#очистить-таблицу)**  
+**[Удалить Базу Данных](#удалить-базу-данных)**  
+**[Удалить Таблицу](#удалить-таблицу)**  
 
 
-### Installation
+### Установка
 
 - Import Db.class.php into your project, and require it:
 
@@ -50,7 +51,7 @@ spl_autoload_register();
 use lib\Db;
 ```
 
-### Initialization
+### Инициализация
 
 Simple initialization with utf8 charset set by default:
 ```php
@@ -69,7 +70,31 @@ You can add a prefix of your database:
 $db->setPrefix ('my_');
 ```
 
-### Insert Query
+### Выборка
+select title and content columns 
+```php
+$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
+```
+select all from the table
+```php
+$selectAll = $db->select('tableName');
+```
+
+or select just one row
+
+```php
+$select = $db->select('tableName', ['id' => 1]);
+```
+example of use:
+```php
+$article = $db->select('article', ['id' => 1])) 
+foreach ($article as $k => $v)
+{
+    echo '<p>' . $k . ': ' . $v . '</p>';
+}
+```
+
+### Вставка
 Simple example
 ```php
 $data = Array ("login" => "admin",
@@ -118,7 +143,7 @@ $db->onDuplicate($updateColumns, $lastInsertId);
 $id = $db->insert ('users', $data);
 ```
 
-### Insert Multiple Query
+### Вставка нескольких строк
 Insert multiple datasets at once
 ```php
 $data = Array(
@@ -156,7 +181,7 @@ if(!$ids) {
 }
 ```
 
-### Update Query
+### Обновление
 ```php
 $data = Array (
 	'firstName' => 'Bobby',
@@ -179,31 +204,7 @@ $db->update ('users', $data, 10);
 // Gives: UPDATE users SET ... LIMIT 10
 ```
 
-### Select Query
-select title and content columns 
-```php
-$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
-```
-select all from the table
-```php
-$selectAll = $db->select('tableName');
-```
-
-or select just one row
-
-```php
-$select = $db->select('tableName', ['id' => 1]);
-```
-example of use:
-```php
-$article = $db->select('article', ['id' => 1])) 
-foreach ($article as $k => $v)
-{
-    echo '<p>' . $k . ': ' . $v . '</p>';
-}
-```
-
-### Delete Query
+### Удаление
 ```php
 $db->delete('id', 1);
 ```
@@ -215,7 +216,7 @@ if($db->delete('article', ['id' => 1]))
 }
 ```
 
-### Create Database
+### Создать Базу Данных
 ```php
 $db->createDatabase('articles');
 ```
@@ -227,7 +228,7 @@ if($db->createDatabase('articles'))
 }
 ```
 
-### Create Table
+### Создать Таблицу
 ```php
 $db->createTable("CREATE TABLE IF NOT EXISTS users (
              id INT(11) NOT NULL AUTO_INCREMENT,
@@ -251,7 +252,7 @@ if($db->createTable($sql))
 }
 ```
 
-### Truncate Table
+### Очистить Таблицу
 ```php
 $db->truncateTable('article');
 ```
@@ -263,7 +264,7 @@ if($db->truncateTable('article'))
 }
 ```
 
-### Drop Database
+### Удалить Базу Данных
 ```php
 $db->dropDatabase('articles');
 ```
@@ -275,7 +276,7 @@ if($db->dropDatabase('articles'))
 }
 ```
 
-### Drop Table
+### Удалить Таблицу
 ```php
 $db->dropTable('article');
 ```
@@ -286,3 +287,5 @@ if($db->dropTable('article'))
     echo 'Table article successfully deleted!';
 }
 ```
+
+**[Наверх](#содержание)** 

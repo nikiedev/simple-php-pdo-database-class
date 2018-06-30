@@ -10,7 +10,7 @@
 
 Смотрите <a href='HelpEN.md'>Английскую документацию</a> чтобы получить больше информации
 
-`Главная`
+`Homepage`
 
 Вернуться <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>назад</a> на главную страницу
 

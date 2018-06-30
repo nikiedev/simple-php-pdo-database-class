@@ -36,6 +36,7 @@ class Db
 	private $dbh = null;
 	private $query = null;
 	private $timestamp_writes = false;
+	private $prefix = null;
 
 	/**
 	 * Db constructor.
@@ -47,13 +48,18 @@ class Db
 	 * @param string $pass
 	 * @param string $name
 	 * @param string $charset
+	 * @param null   $prefix
 	 */
-	public function __construct($driver = 'mysql', $host = 'localhost', $user = 'root', $pass = '', $name = null, $charset = 'utf8')
+	public function __construct($driver = 'mysql', $host = 'localhost', $user = 'root', $pass = '', $name = null, $charset = 'utf8', $prefix = null)
 	{
 		$dsn = $driver . ':host=' . $host;
-		if (!empty($name) and isset($name))
+		if (!empty($name))
 		{
 			$dsn .= ';dbname=' . $name;
+		}
+		if (!empty($prefix))
+		{
+			$this->prefix = $prefix;
 		}
 		$dsn       .= ';charset=' . $charset;
 		try
@@ -116,7 +122,7 @@ class Db
 	 *
 	 * @return bool
 	 */
-	public function connectDatabase($database)
+	public function useDatabase($database)
 	{
 		$sql_str     = 'USE ' . $database;
 		$this->query = $this->dbh->prepare($sql_str);
@@ -152,6 +158,7 @@ class Db
 	 */
 	public function createTable($sql)
 	{
+		// @TODO make some filter maybe better later if possible
 		$this->query = $this->dbh->prepare($sql);
 
 		return $this->query->execute();
@@ -191,36 +198,34 @@ class Db
 			$sql_str .= ' * FROM ' . $table;
 		}
 
-		// append WHERE if necessary
-		$sql_str .= (count($where) > 0 ? ' WHERE ' : '');
-
 		$add_and = false;
-		// add each clause using parameter array
-		if (empty($where))
-		{
-			$where = [];
-		}
 
-		foreach ($where as $key => $val)
+		if (!empty($where) and is_array($where))
 		{
-			// only add AND after the first clause item has been appended
-			if ($add_and)
+			// append WHERE if necessary
+			$sql_str .= ' WHERE ';
+			// add each clause using parameter array
+			foreach ($where as $key => $val)
 			{
-				$sql_str .= ' AND ';
-			}
-			else
-			{
-				$add_and = true;
-			}
+				// only add AND after the first clause item has been appended
+				if ($add_and)
+				{
+					$sql_str .= ' AND ';
+				}
+				else
+				{
+					$add_and = true;
+				}
 
-			// append clause item
-			$sql_str .= $key . ' = :' . $key;
+				// append clause item
+				$sql_str .= $key . ' = :' . $key;
+			}
 		}
 
 		// add the order by clause if we have one
 		if (!empty($order_by))
 		{
-			$sql_str   .= ' ORDER BY';
+			$sql_str   .= ' ORDER BY ';
 			$add_comma = false;
 			foreach ($order_by as $column => $order)
 			{
@@ -232,7 +237,7 @@ class Db
 				{
 					$add_comma = true;
 				}
-				$sql_str .= ' ' . $column . ' ' . $order;
+				$sql_str .= $column . ' ' . $order;
 			}
 		}
 
@@ -246,17 +251,20 @@ class Db
 			$disableLimit = ['sqlsrv', 'mssql', 'oci'];
 
 			// add the limit clause if we have one
-			if (!is_null($limit) and !in_array($pdoDriver, $disableLimit))
+			if (!empty($limit) and !in_array($pdoDriver, $disableLimit))
 			{
-				$sql_str .= ' LIMIT ' . (!is_null($start) ? $start . ', ' : '') . $limit;
+				$sql_str .= ' LIMIT ' . (!empty($start) ? $start . ', ' : '') . $limit;
 			}
 
 			$this->query = $this->dbh->prepare($sql_str);
 
-			// bind each parameter in the array
-			foreach ($where as $key => $val)
+			if (!empty($where) and is_array($where))
 			{
-				$this->query->bindValue(':' . $key, $val);
+				// bind each parameter in the array
+				foreach ($where as $key => $val)
+				{
+					$this->query->bindValue(':' . $key, $val);
+				}
 			}
 
 			$this->query->execute();

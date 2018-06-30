@@ -7,10 +7,11 @@ spl_autoload_register();
 
 
 $db = new Db();
-$db->connectDatabase('articles');
+$db->useDatabase('articles');
 
-$selectAllFields = $db->select('article');
-//$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
+//$selectOneRow = $db->select('article', ['id' => 1]);
+//$selectAll = $db->select('article');
+$selectCustomFields = $db->select(['article', ['title, content']], '', '3', '0', ['id' => 'ASC']);
 
 //$insertOneRow = $db->insert('article', ['id' => null, 'title' => 'Заголовок № 10', 'content' => 'Тут текст записи № 10.']);
 
@@ -52,7 +53,7 @@ $selectAllFields = $db->select('article');
 
 <?php
 
-foreach ($selectAllFields as $rows): ?>
+foreach ($selectCustomFields as $rows): ?>
 <p>
     <?php foreach ($rows as $col_k => $col_v): ?>
     <?php echo $col_k . ': ' . $col_v . '<br>'; ?>
@@ -65,12 +66,12 @@ foreach ($selectAllFields as $rows): ?>
 echo '<br><hr>';
 
 // работает
-//var_dump($selectAllFields);
+//var_dump($selectAll);
 
 echo '<br><hr>';
 
 // работает
-// var_dump($selectCustomFields);
+//var_dump($selectCustomFields);
 
 echo '<br><hr>';
 
@@ -87,8 +88,17 @@ echo '<br><hr>';
 // работает, вернет bool
 // var_dump($checkConnection);
 
+//$where = [];
+//if (!empty($where) and is_array($where))
+//{
+//	echo '+';
+//}
+//else
+//{
+//	echo '-';
+//}
 
 ?>
-
+<br><br><br><br><br>
 </body>
 </html>

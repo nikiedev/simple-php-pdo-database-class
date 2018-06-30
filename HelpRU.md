@@ -4,7 +4,7 @@
 ## PHP PDO Db Wrapper with prepared statements
 
 
-### Другие ссылки
+### Other links
 
 `English`
 
@@ -298,4 +298,4 @@ if($db->dropTable('article'))
 }
 ```
 
-**[Наверх](#PHP-PDO-Db-Wrapper-with-prepared-statements)** 
+**[Наверх](#other-links)**  

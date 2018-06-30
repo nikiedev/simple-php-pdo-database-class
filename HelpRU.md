@@ -61,13 +61,7 @@ $db = new Db();
 Advanced initialization:
 ```php
 // initialization with params:
-$db = new Db('driver', 'host', 'username', 'password', 'databaseName', 'charset');
-```
-
-You can add a prefix of your database:
-
-```php
-$db->setPrefix ('my_');
+$db = new Db('driver', 'host', 'username', 'password', 'databaseName', 'charset', 'prefix');
 ```
 
 ### Select

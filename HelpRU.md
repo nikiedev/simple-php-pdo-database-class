@@ -10,6 +10,10 @@
 
 See <a href='HelpEN.md'>English manual</a> for more information
 
+`Homepage`
+
+Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> to the main page
+
 ### Table of Contents
 
 **[Initialization](#initialization)**  

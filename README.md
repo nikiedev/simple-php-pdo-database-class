@@ -185,25 +185,45 @@ $selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0
 ```
 select all from the table
 ```php
-$selectAll = $db->select('article');
+$selectAll = $db->select('tableName');
 ```
 
 or select just one row
 
 ```php
-$selectAll = $db->select('article', ['id' => 1]);
+$select = $db->select('tableName', ['id' => 1]);
+```
+example of use:
+```php
+$article = $db->select('article', ['id' => 1])) 
+foreach ($article as $k => $v)
+{
+    echo '<p>' . $k . ': ' . $v . '</p>';
+}
 ```
 
 ### Delete Query
 ```php
-$db->where('id', 1);
-if($db->delete('users')) echo 'successfully deleted';
+$db->delete('id', 1);
+```
+example of use:
+```php
+if($db->delete('article', ['id' => 1])) 
+{
+    echo 'Row deleted successfully!';
+}
 ```
 
 ### Create Database
 ```php
-$db->where('id', 1);
-if($db->delete('users')) echo 'successfully deleted';
+$db->createDatabase('articles');
+```
+example of use:
+```php
+if($db->createDatabase('articles')) 
+{
+    echo 'Database articles created successfully!';
+}
 ```
 
 ### Create Table
@@ -216,6 +236,19 @@ $db->createTable("CREATE TABLE IF NOT EXISTS users (
              PRIMARY KEY (id))"
 );
 ```
+example of use:
+```php
+$sql = "CREATE TABLE IF NOT EXISTS users (
+                    id INT(11) NOT NULL AUTO_INCREMENT,
+                    firstName VARCHAR(255) NOT NULL,
+                    lastName VARCHAR(255) NOT NULL,
+                    email VARCHAR(255) NOT NULL,
+                    PRIMARY KEY (id))";
+if($db->createTable($sql)) 
+{
+    echo 'Table users created successfully!';
+}
+```
 
 ### Truncate Table
 ```php
@@ -223,9 +256,9 @@ $db->truncateTable('article');
 ```
 example of use:
 ```php
-if(truncateTable('article')) 
+if($db->truncateTable('article')) 
 {
-    echo 'Table article successfully cleared';
+    echo 'Table article successfully cleared!';
 }
 ```
 
@@ -235,9 +268,9 @@ $db->dropDatabase('articles');
 ```
 example of use:
 ```php
-if(dropDatabase('articles')) 
+if($db->dropDatabase('articles')) 
 {
-    echo 'Table articles successfully deleted';
+    echo 'Table articles successfully deleted!';
 }
 ```
 
@@ -247,8 +280,8 @@ $db->dropTable('article');
 ```
 example of use:
 ```php
-if(dropTable('article')) 
+if($db->dropTable('article')) 
 {
-    echo 'Table article successfully deleted';
+    echo 'Table article successfully deleted!';
 }
 ```

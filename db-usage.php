@@ -84,7 +84,6 @@ echo $res;
 // works
 //$db->dropDatabase('comments');
 
-
 ?>
 
 

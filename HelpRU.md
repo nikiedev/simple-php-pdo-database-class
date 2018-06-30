@@ -1,7 +1,7 @@
-`Безопасный и простой PHP PDO класс для работы с базой данных. Русская документация.`
+`Безопасный и простой PDO класс для работы с базой данных. Русская документация.`
 <hr>
 
-## PHP PDO Db Wrapper with prepared statements
+## PHP: PDO Db Wrapper with prepared statements
 
 
 ### Other links

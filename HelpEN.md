@@ -1,7 +1,7 @@
-`Safe and simple PHP PDO Database class. English documentation.`
+`Safe and simple PDO Database class. English documentation.`
 <hr>
 
-## PHP PDO Db Wrapper with prepared statements
+## PHP: PDO Db Wrapper with prepared statements
 
 
 ### Other links

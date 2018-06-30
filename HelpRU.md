@@ -298,4 +298,4 @@ if($db->dropTable('article'))
 }
 ```
 
-**[Наверх](#содержание)** 
+**[Наверх](#installation)** 

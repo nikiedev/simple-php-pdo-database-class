@@ -298,4 +298,4 @@ if($db->dropTable('article'))
 }
 ```
 
-**[To Top](#table-of-contents)** 
+**[To Top](#installation)** 

@@ -5,59 +5,18 @@ use lib\Db;
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-/*
-$db_options = [
-    'user' => 'root',
-    'pass' => '',
-    'db' => 'articles',
-    'host' => 'localhost'
-];
 
-$db_safe = new SafeMySQL($db_options);
-
-$all = $db_safe->getAll("SELECT * FROM `article`");
-
-foreach ($all as $rows) {
+$db = new Db();
+$db->connectDatabase('articles');
+// select all
+$selectAllFields = $db->select('article');
+foreach ($selectAllFields as $rows) {
 	echo '<p>';
-    foreach ($rows as $col_k => $col_v) {
-	    echo $col_k . ': ' . $col_v . '<br>';
-    }
+	foreach ($rows as $col_k => $col_v) {
+		echo $col_k . ': ' . $col_v . '<br>';
+	}
 	echo '</p>';
 }
-
-echo '<hr>';
-
-
-$db = new MysqliDb('localhost', 'root', '', 'articles');
-
-if ($db) {
-	$res = $db->get('article', 3);
-echo $res;
-	//var_dump($res);
-}
-*/
-
-
-
-
-
-
-//$res = $db->select(['id, title, content'], 'article');
-
-	//$res3 = $db3->array_load_all('article');
-
-
-
-	?>
-
-
-<?php
-
-//$db = new Db();
-//$db->connectDatabase('articles');
-//$db->select('article'); select all
-//$selectAllFields = $db->select([['title, content'], ['article']], null, '3', '0', ['id' => 'ASC']);
-
 //$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
 
 //$insertOneRow = $db->insert('article', ['id' => null, 'title' => 'Заголовок № 10', 'content' => 'Тут текст записи № 10.']);
@@ -109,7 +68,7 @@ echo $res;
 echo '<br><hr>';
 
 // работает
-var_dump($selectAllFields);
+//var_dump($selectAllFields);
 
 echo '<br><hr>';
 

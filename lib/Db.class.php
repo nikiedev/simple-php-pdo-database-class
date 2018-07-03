@@ -131,14 +131,6 @@ class Db
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function connectionStatus()
-	{
-		return $this->dbh->getAttribute(\PDO::ATTR_CONNECTION_STATUS);
-	}
-
-	/**
 	 * @param $database
 	 *
 	 * @return bool

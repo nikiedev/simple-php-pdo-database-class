@@ -2,7 +2,7 @@
 /*
  * Safe and simple PHP PDO Database class.
  *
- * @author      nikiedev <nikiedev@mail.ru>
+ * @author      nikiedev <igor.nikiforov@ukr.net>
  * @copyright   (©) 2018
  * @version     1.0.0 alpha
  *

@@ -651,7 +651,7 @@ class Db
 	 */
 	public function dropDatabase($database)
 	{
-		$sql_str     = 'DROP DATABASE' . $database;
+		$sql_str     = 'DROP DATABASE ' . $database;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();

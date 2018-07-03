@@ -33,10 +33,10 @@ namespace lib;
  */
 class Db
 {
-	private $dbh = null;
-	private $query = null;
-	private $timestamp_writes = false;
-	private $prefix = null;
+	protected $dbh = null;
+	protected $query = null;
+	protected $timestamp_writes = false;
+	protected $prefix = null;
 
 	/**
 	 * Db constructor.
@@ -50,7 +50,7 @@ class Db
 	 * @param string $charset
 	 * @param null   $prefix
 	 */
-	public function __construct($driver = 'mysql', $host = 'localhost', $user = 'root', $pass = '', $name = null, $charset = 'utf8', $prefix = null)
+	public function __construct($driver = 'mysql', $host = 'localhost', $user = 'root', $pass = '', $name = 'monengine', $charset = 'utf8', $prefix = null)
 	{
 		$dsn = $driver . ':host=' . $host;
 		if (!empty($name))

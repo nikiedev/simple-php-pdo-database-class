@@ -7,8 +7,8 @@ spl_autoload_register();
 
 
 $db = new Db();
-$db->useDatabase('articles');
-
+// $db->useDatabase('articles');
+$dropDatabase = $db->dropDatabase('comp4all_itstol');
 //$selectOneRow = $db->select('article', ['id' => 1]);
 //$selectAll = $db->select('article');
 $selectCustomFields = $db->select(['article', ['title, content']], '', '3', '0', ['id' => 'ASC']);
@@ -86,7 +86,6 @@ echo '<br><hr>';
 echo '<br><hr>';
 
 // работает, вернет bool
-// var_dump($checkConnection);
 
 //$where = [];
 //if (!empty($where) and is_array($where))
@@ -97,6 +96,12 @@ echo '<br><hr>';
 //{
 //	echo '-';
 //}
+echo '<br><hr>';
+if ($dropDatabase) {
+    echo 'db dropped successfully';
+} else {
+    echo 'drop database failed!';
+}
 
 ?>
 <br><br><br><br><br>

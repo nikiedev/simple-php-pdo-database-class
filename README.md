@@ -16,9 +16,9 @@ See <a href='HelpRU.md'>Russian manual</a> for more information
 
 ## Requirements
 
-PHP 5.4 or higher `(PHP 7 tested successfully)`  
+PHP 5.4 or higher `(PHP 7.0.30 tested successfully)`  
 Apache 2.2 or higher `(Apache PHP 7 + Nginx 1.12 tested successfully)`  
-MySQL 5.1 or higher `(MySQL 5.7  tested successfully)`
+MySQL 5.1 or higher `(MySQL 5.7.20  tested successfully)`
 
 ## Support
 

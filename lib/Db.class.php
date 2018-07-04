@@ -623,6 +623,19 @@ class Db
 	 *
 	 * @return bool
 	 */
+	public function optimizeTable($table)
+	{
+		$sql_str     = 'OPTIMIZE TABLE ' . $this->prefix . $table;
+		$this->query = $this->dbh->prepare($sql_str);
+
+		return $this->query->execute();
+	}
+
+	/**
+	 * @param $table
+	 *
+	 * @return bool
+	 */
 	public function truncateTable($table)
 	{
 		$sql_str     = 'TRUNCATE TABLE ' . $this->prefix . $table;

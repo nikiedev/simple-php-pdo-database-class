@@ -7,11 +7,12 @@ spl_autoload_register();
 
 
 $db = new Db();
-// $db->useDatabase('articles');
-$dropDatabase = $db->dropDatabase('comp4all_itstol');
+$db->useDatabase('articles');
+// $dropDatabase = $db->dropDatabase('mydb');
+//$createDatabase = $db->createDatabase('mydb');
 //$selectOneRow = $db->select('article', ['id' => 1]);
 //$selectAll = $db->select('article');
-$selectCustomFields = $db->select(['article', ['title, content']], '', '3', '0', ['id' => 'ASC']);
+$selectCustomFields = $db->select(['table', ['col1', 'col2']], '', '3', '0', ['id' => 'ASC']);
 
 //$insertOneRow = $db->insert('article', ['id' => null, 'title' => 'Заголовок № 10', 'content' => 'Тут текст записи № 10.']);
 
@@ -71,7 +72,7 @@ echo '<br><hr>';
 echo '<br><hr>';
 
 // работает
-//var_dump($selectCustomFields);
+var_dump($selectCustomFields);
 
 echo '<br><hr>';
 
@@ -85,25 +86,26 @@ echo '<br><hr>';
 
 echo '<br><hr>';
 
+
+
 // работает, вернет bool
-
-//$where = [];
-//if (!empty($where) and is_array($where))
-//{
-//	echo '+';
+//echo '<br><hr>';
+//if ($dropDatabase) {
+//    echo 'db dropped successfully';
+//} else {
+//    echo 'drop database failed!';
 //}
-//else
-//{
-//	echo '-';
-//}
-echo '<br><hr>';
-if ($dropDatabase) {
-    echo 'db dropped successfully';
-} else {
-    echo 'drop database failed!';
-}
 
+//echo '<br><hr>';
+//if ($createDatabase) {
+//    echo 'db created successfully';
+//} else {
+//    echo 'database creation failed!';
+//}
+echo phpversion();
 ?>
+
+
 <br><br><br><br><br>
 </body>
 </html>

@@ -32,20 +32,20 @@
 
 ### Installation
 
-- Import Db.class.php into your project, and require it:
+- Подключите Db.class.php к вашему проекту следующим образом:
 
 ```php
 require_once 'Db.class.php';
 ```
 
-or you can use autoload:
+или же вы можете использовать автозагрузку:
 
 ```php
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 ```
 
-- Import the namespace to the file where the class is used:
+- Подключите пространство имен в файл где вы используете класс:
 
 ```php
 use lib\Db;
@@ -53,129 +53,85 @@ use lib\Db;
 
 ### Initialization
 
-Simple initialization with utf8 charset set by default:
+Простая инициализация: создаем подключение к базе с кодировкой utf8 по умолчанию:
 ```php
-// simple way (you need to change params in the 'constructor' at first):
+// вызываем конструктор по умолчанию (необходимо сперва изменить агрументы функций в 'конструкторе' в самом классе):
 $db = new Db();
 ```
-Advanced initialization:
+Расширенная инициализация:
 ```php
-// initialization with params:
+// вызываем конструктор с параметрами:
 $db = new Db('driver', 'host', 'username', 'password', 'databaseName', 'charset', 'prefix');
 ```
 
 ### Select
 
-select title and content columns 
+выбираем все из таблицы *table1*
 ```php
-$selectCustomFields = $db->select(['article', ['title, content']], null, '3', '0', ['id' => 'ASC']);
+$db->select('table1');
 ```
-select all from the table
+выбираем *1* строку из таблицы *table1* где *id* == *1*
 ```php
-$selectAll = $db->select('tableName');
+$db->select('table1', ['id' => 1]);
+```
+выбираем колонки *col1* и *col2* из таблицы *table1*
+```php
+$db->select(['table1', ['col1', 'col2']]);
+```
+выбираем колонки *col1* и *col2* из таблицы *table1* с лимтом от *0* до *3* с сортировкой по возростанию
+```php
+$db->select(['table1', ['col1', 'col2']], '', '3', '0', ['id' => 'ASC']);
 ```
 
-or select just one row
+##### Примеры использования:
 
 ```php
-$select = $db->select('tableName', ['id' => 1]);
-```
-example of use:
-```php
+// выбираем 1 материал у которого id == 1
 $article = $db->select('article', ['id' => 1])) 
+// отображаем
 foreach ($article as $k => $v)
 {
     echo '<p>' . $k . ': ' . $v . '</p>';
+}
+
+// выбираем колонки title и content из таблицы article
+$selectCustomCols = $db->select(['article', ['title', 'content']]);
+// отображаем
+foreach ($selectCustomCols as $rows)
+{
+    echo '<p>';
+    foreach ($rows as $col_k => $col_v)
+    {
+         echo $col_k . ': ' . $col_v . '<br>';
+    }
+    echo '</p>';
 }
 ```
 
 ### Insert
 
-Simple example
+вставка строки в таблицу *table1* с колонками *id*, *title*, *content*
 ```php
-$data = Array ("login" => "admin",
-               "firstName" => "John",
-               "lastName" => 'Doe'
+$db->insert('table1', [
+        'id' => null,
+        'title' => 'Заголовок 1',
+        'content' => 'Тут текст записи № 1.'
+    ]
 );
-$id = $db->insert ('users', $data);
-if($id)
-    echo 'user was created. Id=' . $id;
-```
-
-Insert with functions use
-```php
-$data = Array (
-	'login' => 'admin',
-    'active' => true,
-	'firstName' => 'John',
-	'lastName' => 'Doe',
-	'password' => $db->func('SHA1(?)',Array ("secretpassword+salt")),
-	// password = SHA1('secretpassword+salt')
-	'createdAt' => $db->now(),
-	// createdAt = NOW()
-	'expires' => $db->now('+1Y')
-	// expires = NOW() + interval 1 year
-	// Supported intervals [s]econd, [m]inute, [h]hour, [d]day, [M]onth, [Y]ear
-);
-
-$id = $db->insert ('users', $data);
-if ($id)
-    echo 'user was created. Id=' . $id;
-else
-    echo 'insert failed: ' . $db->getLastError();
-```
-
-Insert with on duplicate key update
-```php
-$data = Array ("login" => "admin",
-               "firstName" => "John",
-               "lastName" => 'Doe',
-               "createdAt" => $db->now(),
-               "updatedAt" => $db->now(),
-);
-$updateColumns = Array ("updatedAt");
-$lastInsertId = "id";
-$db->onDuplicate($updateColumns, $lastInsertId);
-$id = $db->insert ('users', $data);
 ```
 
 ### Insert Multiple
 
-Insert multiple datasets at once
+вставка нескольких строк (если id PRIMARY KEY - можно использовать null)
 ```php
-$data = Array(
-    Array ("login" => "admin",
-        "firstName" => "John",
-        "lastName" => 'Doe'
-    ),
-    Array ("login" => "other",
-        "firstName" => "Another",
-        "lastName" => 'User',
-        "password" => "very_cool_hash"
-    )
+$db->insertMultiple(
+        'table1',
+        ['id, title, content'],
+        [
+            [1, 'Заголовок 1', 'Текст статьи 1'],
+	        [2, 'Заголовок 2', 'Текст статьи 2']
+        ]
 );
-$ids = $db->insertMulti('users', $data);
-if(!$ids) {
-    echo 'insert failed: ' . $db->getLastError();
-} else {
-    echo 'new users inserted with following id\'s: ' . implode(', ', $ids);
-}
-```
-
-If all datasets only have the same keys, it can be simplified
-```php
-$data = Array(
-    Array ("admin", "John", "Doe"),
-    Array ("other", "Another", "User")
-);
-$keys = Array("login", "firstName", "lastName");
-
-$ids = $db->insertMulti('users', $data, $keys);
-if(!$ids) {
-    echo 'insert failed: ' . $db->getLastError();
-} else {
-    echo 'new users inserted with following id\'s: ' . implode(', ', $ids);
-}
 ```
 
 ### Update
@@ -205,9 +161,9 @@ $db->update ('users', $data, 10);
 ### Delete
 
 ```php
-$db->delete('id', 1);
+$db->delete('table1', ['id' => 1]);
 ```
-example of use:
+пример использования:
 ```php
 if($db->delete('article', ['id' => 1])) 
 {
@@ -218,7 +174,7 @@ if($db->delete('article', ['id' => 1]))
 ### Create Database
 
 ```php
-$db->createDatabase('articles');
+$db->createDatabase('database1');
 ```
 example of use:
 ```php
@@ -239,7 +195,7 @@ $db->createTable("CREATE TABLE IF NOT EXISTS users (
              PRIMARY KEY (id))"
 );
 ```
-example of use:
+пример использования:
 ```php
 $sql = "CREATE TABLE IF NOT EXISTS users (
                     id INT(11) NOT NULL AUTO_INCREMENT,
@@ -256,9 +212,9 @@ if($db->createTable($sql))
 ### Truncate Table
 
 ```php
-$db->truncateTable('article');
+$db->truncateTable('table1');
 ```
-example of use:
+пример использования:
 ```php
 if($db->truncateTable('article')) 
 {
@@ -269,9 +225,9 @@ if($db->truncateTable('article'))
 ### Drop Database
 
 ```php
-$db->dropDatabase('articles');
+$db->dropDatabase('database1');
 ```
-example of use:
+пример использования:
 ```php
 if($db->dropDatabase('articles')) 
 {
@@ -282,9 +238,9 @@ if($db->dropDatabase('articles'))
 ### Drop Table
 
 ```php
-$db->dropTable('article');
+$db->dropTable('table1');
 ```
-example of use:
+пример использования:
 ```php
 if($db->dropTable('article')) 
 {

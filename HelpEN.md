@@ -83,7 +83,7 @@ select columns *col1* and *col2* from the table *table1* with limit start from *
 $db->select(['table1', ['col1', 'col2']], '', '3', '0', ['id' => 'ASC']);
 ```
 
-##### Examples of use:
+##### Examples of use
 
 ```php
 // select 1 article where id == 1
@@ -162,7 +162,9 @@ if ($updateRow) {
 ```php
 $db->delete('table1', ['id' => 1]);
 ```
-example of use:
+
+##### Example of use
+
 ```php
 if($db->delete('article', ['id' => 1])) 
 {
@@ -175,7 +177,9 @@ if($db->delete('article', ['id' => 1]))
 ```php
 $db->createDatabase('database1');
 ```
-example of use:
+
+##### Example of use
+
 ```php
 if($db->createDatabase('articles')) 
 {
@@ -194,7 +198,9 @@ $db->createTable("CREATE TABLE IF NOT EXISTS users (
              PRIMARY KEY (id))"
 );
 ```
-example of use:
+
+##### Example of use
+
 ```php
 $sql = "CREATE TABLE IF NOT EXISTS users (
                     id INT(11) NOT NULL AUTO_INCREMENT,
@@ -213,7 +219,9 @@ if($db->createTable($sql))
 ```php
 $db->truncateTable('table1');
 ```
-example of use:
+
+##### Example of use
+
 ```php
 if($db->truncateTable('article')) 
 {
@@ -226,7 +234,9 @@ if($db->truncateTable('article'))
 ```php
 $db->dropDatabase('database1');
 ```
-example of use:
+
+##### Example of use
+
 ```php
 if($db->dropDatabase('articles')) 
 {
@@ -239,7 +249,9 @@ if($db->dropDatabase('articles'))
 ```php
 $db->dropTable('table1');
 ```
-example of use:
+
+##### Example of use
+
 ```php
 if($db->dropTable('article')) 
 {

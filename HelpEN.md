@@ -129,7 +129,7 @@ $db->insertMultiple(
         ['id, title, content'],
         [
             [1, 'title 1', 'Text of the article 1'],
-	        [2, 'title 2', 'Text of the article 2']
+            [2, 'title 2', 'Text of the article 2']
         ]
 );
 ```

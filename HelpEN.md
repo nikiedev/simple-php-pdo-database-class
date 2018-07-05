@@ -136,26 +136,25 @@ $db->insertMultiple(
 
 ### Update
 
+update column *col1* in the table *table1*
 ```php
-$data = Array (
-	'firstName' => 'Bobby',
-	'lastName' => 'Tables',
-	'editCount' => $db->inc(2),
-	// editCount = editCount + 2;
-	'active' => $db->not()
-	// active = !active;
-);
-$db->where ('id', 1);
-if ($db->update ('users', $data))
-    echo $db->count . ' records were updated';
-else
-    echo 'update failed: ' . $db->getLastError();
+$db->update('table1', ['col1' => 'Article 1 (updated)'], ['id' => 9]);
 ```
 
-`update()` also support limit parameter:
+обновление всех колонок *col1* у которых есть определенное значение
 ```php
-$db->update ('users', $data, 10);
-// Gives: UPDATE users SET ... LIMIT 10
+$db->update('article', ['col1' => 'Title № 10++ (updated)'], ['col1' => 'Title № 10']);
+```
+
+##### Example of use
+
+```php
+$updateRow = $db->update('article', ['title' => 'Article 1 (updated text here)'], ['id' => 10]);
+if ($updateRow) {
+    echo 'updated ' . $updateRow . ' row(s) successfully!';
+} else {
+    echo 'update failed!';
+}
 ```
 
 ### Delete

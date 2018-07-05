@@ -12,7 +12,7 @@ $db->useDatabase('articles');
 //$createDatabase = $db->createDatabase('mydb');
 //$selectOneRow = $db->select('article', ['id' => 1]);
 //$selectAll = $db->select('article');
-$selectCustomFields = $db->select(['table', ['col1', 'col2']], '', '3', '0', ['id' => 'ASC']);
+//$selectCustomFields = $db->select(['table', ['col1', 'col2']], '', '3', '0', ['id' => 'ASC']);
 
 //$insertOneRow = $db->insert('article', ['id' => null, 'title' => 'Заголовок № 10', 'content' => 'Тут текст записи № 10.']);
 
@@ -37,7 +37,13 @@ $selectCustomFields = $db->select(['table', ['col1', 'col2']], '', '3', '0', ['i
 
 // works
 //$db->dropDatabase('comments');
-
+//$db->update('article', ['Материал 1' => 'Материал 1 (updated)'], ['id' => 8]);
+$updateRow = $db->update('article', ['title' => 'Материал 1 (updated1)'], ['id' => 9]);
+if ($updateRow) {
+    echo 'updated ' . $updateRow . ' successfully!';
+} else {
+    echo 'update failed!';
+}
 ?>
 
 
@@ -53,14 +59,14 @@ $selectCustomFields = $db->select(['table', ['col1', 'col2']], '', '3', '0', ['i
 <body>
 
 <?php
-
-foreach ($selectCustomFields as $rows): ?>
-<p>
-    <?php foreach ($rows as $col_k => $col_v): ?>
-    <?php echo $col_k . ': ' . $col_v . '<br>'; ?>
-    <?php endforeach; ?>
-</p>
-<?php endforeach; ?>
+//
+//foreach ($selectCustomFields as $rows): ?>
+<!--<p>-->
+<!--    --><?php //foreach ($rows as $col_k => $col_v): ?>
+<!--    --><?php //echo $col_k . ': ' . $col_v . '<br>'; ?>
+<!--    --><?php //endforeach; ?>
+<!--</p>-->
+<?php //endforeach; ?>
 
 <?php
 
@@ -72,7 +78,7 @@ echo '<br><hr>';
 echo '<br><hr>';
 
 // работает
-var_dump($selectCustomFields);
+//var_dump($selectCustomFields);
 
 echo '<br><hr>';
 

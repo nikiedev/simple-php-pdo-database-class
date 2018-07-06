@@ -25,6 +25,7 @@ Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> 
 **[Delete](#delete)**  
 **[Create Database](#create-database)**  
 **[Create Table](#create-table)**  
+**[Optimize Table](#optimize-table)**  
 **[Truncate Table](#truncate-table)**  
 **[Drop Database](#drop-database)**  
 **[Drop Table](#drop-table)**  
@@ -211,6 +212,21 @@ $sql = "CREATE TABLE IF NOT EXISTS users (
 if($db->createTable($sql)) 
 {
     echo 'Table users created successfully!';
+}
+```
+
+### Optimize Table
+
+```php
+$db->optimizeTable('table1');
+```
+
+##### Example of use
+
+```php
+if($db->optimizeTable('article')) 
+{
+    echo 'Table article successfully optimized!';
 }
 ```
 

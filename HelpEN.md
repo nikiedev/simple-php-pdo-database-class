@@ -142,9 +142,9 @@ update column *col1* in the table *table1*
 $db->update('table1', ['col1' => 'Article 1 (updated)'], ['id' => 9]);
 ```
 
-обновление всех колонок *col1* у которых есть определенное значение
+update all columns *col1* in the table *table1* where *value* == *Title № 10*
 ```php
-$db->update('article', ['col1' => 'Title № 10++ (updated)'], ['col1' => 'Title № 10']);
+$db->update('table1', ['col1' => 'Title № 10++ (updated)'], ['col1' => 'Title № 10']);
 ```
 
 ##### Example of use

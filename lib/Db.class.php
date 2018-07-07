@@ -3,7 +3,9 @@
  * Safe and simple PHP PDO Database class.
  *
  * @author      nikiedev <igor.nikiforov@ukr.net>
- * @copyright   (©) 2018
+ * @copyright   Copyright (©) 2018
+ * @licence     https://opensource.org/licenses/MIT - The MIT License
+ * @link        https://github.com/nikiedev/simple-php-pdo-database-class
  * @version     1.0.0 beta
  *
  * --------------------------------

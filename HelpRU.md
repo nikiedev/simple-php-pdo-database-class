@@ -21,6 +21,7 @@
 **[Select](#select)**  
 **[Insert](#insert)**  
 **[Insert Multiple](#insert-multiple)**  
+**[Last Insert Id](#last-insert-id)**  
 **[Update](#update)**  
 **[Delete](#delete)**  
 **[Create Database](#create-database)**  
@@ -133,6 +134,13 @@ $db->insertMultiple(
             [2, 'Заголовок 2', 'Текст статьи 2']
         ]
 );
+```
+
+### Last Insert Id
+
+метод возвращает последний id запроса, что был выполнен ранее
+```php
+$lastInsertId = $db->lastInsertId();
 ```
 
 ### Update

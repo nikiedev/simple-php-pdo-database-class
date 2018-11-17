@@ -21,6 +21,7 @@ Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> 
 **[Select](#select)**  
 **[Insert](#insert)**  
 **[Insert Multiple](#insert-multiple)**  
+**[Last Insert Id](#last-insert-id)**  
 **[Update](#update)**  
 **[Delete](#delete)**  
 **[Create Database](#create-database)**  
@@ -133,6 +134,13 @@ $db->insertMultiple(
             [2, 'title 2', 'Text of the article 2']
         ]
 );
+```
+
+### Last Insert Id
+
+method returns last inserted id of the query, that was made before
+```php
+$lastInsertId = $db->lastInsertId();
 ```
 
 ### Update

@@ -52,7 +52,7 @@ class Db
 	 * @param string $charset
 	 * @param null   $prefix
 	 */
-	public function __construct($driver = 'mysql', $host = 'localhost', $user = 'root', $pass = '', $name = 'monengine', $charset = 'utf8', $prefix = null)
+	public function __construct($driver = 'mysql', $host = 'localhost', $user = 'root', $pass = '', $name = 'dbname', $charset = 'utf8', $prefix = null)
 	{
 		$dsn = $driver . ':host=' . $host;
 		if (!empty($name))
@@ -468,6 +468,15 @@ class Db
 
 			return false;
 		}
+	}
+	
+	
+	/**
+	 * @return string - the last inserted id. Needs in ajax often, for example
+	 */
+	public function lastInsertId()
+	{
+		return $this->dbh->lastInsertId();
 	}
 
 	/**

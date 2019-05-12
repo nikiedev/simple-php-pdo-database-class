@@ -352,6 +352,10 @@ class Db
 			// bind each parameter in the array
 			foreach ($params as $key => $val)
 			{
+				if ($val === 'CURRENT_TIMESTAMP' || $val === 'NOW()')
+				{
+					$val = date('Y-m-d H:i:s');
+				}
 				$this->query->bindValue(':' . $key, $val);
 			}
 

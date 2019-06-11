@@ -139,21 +139,28 @@ class Db
 	 */
 	public function createDatabase($database)
 	{
-		$sql_str     = 'CREATE DATABASE IF NOT EXISTS ' . $database;
+		$sql_str     = 'CREATE DATABASE IF NOT EXISTS ' . $database . ' DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;';
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
 	}
-
+	
 	/**
-	 * @param $sql
+	 * @param $table
 	 *
+	 * @param array $columns
 	 * @return bool
 	 */
-	public function createTable($sql)
+	public function createTable($table, $columns)
 	{
-		// @TODO make some filter maybe better later if possible
-		$this->query = $this->dbh->prepare($sql);
+		$sql_str = 'CREATE TABLE IF NOT EXISTS ' . $this->prefix . $table . ' . (id INT NOT NULL AUTO_INCREMENT ';
+		foreach ($columns as $col_key => $col_val)
+		{
+			$sql_str .= ', ' . $col_key . ' ' . $col_val;
+		}
+		$sql_str .= ', PRIMARY KEY (id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;';
+		
+		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
 	}
@@ -288,7 +295,118 @@ class Db
 			return false;
 		}
 	}
-
+	
+	/**
+	 * method selectJoin.
+	 *    - retrieve information from the database, as an array from several tables
+	 *
+	 * @param array $table_cols - items of the db tables we are retreiving the rows from and joining
+	 * @param array $conditions - associative array representing the WHERE clause filters
+	 * @param int $limit (optional) - the amount of rows to return
+	 * @param int $start (optional) - the row to start on, indexed by zero
+	 * @param array $order_by (optional) - an array with order by clause
+	 *
+	 * @return mixed - associate representing the fetched table row, false on failure
+	 */
+	public function selectJoin($table_cols = [], $conditions = [], $limit = null, $start = null, $order_by = [])
+	{
+		// building query string
+		$sql_str = 'SELECT ';
+		
+		$key_number = 0;
+		
+		foreach ($table_cols as $table_name => $columns)
+		{
+			$sql_str .= $table_name . '.';
+			
+			$sql_str .= implode(', '.$table_name.'.', $columns);
+			
+			$key_number++;
+			if ($key_number != count($table_cols))
+			{
+				$sql_str .= ', ';
+			}
+			
+		}
+		
+		$first = true;
+		$i = 0;
+		$table_first = null;
+		
+		foreach ($table_cols as $table_name => $columns)
+		{
+			if ($first)
+			{
+				$sql_str .= ' FROM ' . $this->prefix . $table_name;
+				$table_first = $table_name;
+				$first = false;
+				continue;
+			}
+			$sql_str .= ' JOIN ' . $this->prefix . $table_name . ' ON ' . $this->prefix . $table_first . '.' . $conditions[$i++] . ' = ' . $this->prefix . $table_name . '.id';
+		}
+		
+		// add the order by clause if we have one
+		if (!empty($order_by))
+		{
+			$sql_str   .= ' ORDER BY ';
+			$add_comma = false;
+			foreach ($order_by as $column => $order)
+			{
+				if ($add_comma)
+				{
+					$sql_str .= ', ';
+				}
+				else
+				{
+					$add_comma = true;
+				}
+				$sql_str .= $column . ' ' . $order;
+			}
+		}
+		
+		try
+		{
+			// now we attempt to retrieve the row using the sql string
+			$pdoDriver = $this->dbh->getAttribute(\PDO::ATTR_DRIVER_NAME);
+			
+			//@TODO MS SQL Server & Oracle handle LIMITs differently, for now its disabled but we should address it later.
+			$disableLimit = ['sqlsrv', 'mssql', 'oci'];
+			
+			// add the limit clause if we have one
+			if (!empty($limit) and !in_array($pdoDriver, $disableLimit))
+			{
+				$sql_str .= ' LIMIT ' . (!empty($start) ? $start . ', ' : '') . $limit;
+			}
+			
+			$this->query = $this->dbh->prepare($sql_str);
+			$this->query->execute();
+			
+			// now return the results, depending on if we want all or first row only
+			if (!is_null($limit) and $limit == 1)
+			{
+				return $this->query->fetch();
+			}
+			else
+			{
+				$res = [];
+				while ($row = $this->query->fetch())
+				{
+					$res[] = $row;
+				}
+				
+				return $res;
+				// return $this->query->fetchAll(); >> may be not best when there are many rows
+			}
+			
+		}
+		catch (\PDOException $e)
+		{
+			error_log($e);
+			
+			return false;
+		}
+	}
+	
 	/**
 	 * method insert.
 	 *    - adds a row to the specified table
@@ -640,7 +758,7 @@ class Db
 	 */
 	public function optimizeTable($table)
 	{
-		$sql_str     = 'OPTIMIZE TABLE ' . $this->prefix . $table;
+		$sql_str     = 'OPTIMIZE TABLE ' . $this->prefix . $table . ';';
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -653,7 +771,7 @@ class Db
 	 */
 	public function truncateTable($table)
 	{
-		$sql_str     = 'TRUNCATE TABLE ' . $this->prefix . $table;
+		$sql_str     = 'TRUNCATE TABLE ' . $this->prefix . $table . ';';
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -666,7 +784,7 @@ class Db
 	 */
 	public function dropTable($table)
 	{
-		$sql_str     = 'DROP TABLE ' . $this->prefix . $table;
+		$sql_str     = 'DROP TABLE IF EXISTS ' . $this->prefix . $table;
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();
@@ -679,7 +797,7 @@ class Db
 	 */
 	public function dropDatabase($database)
 	{
-		$sql_str     = 'DROP DATABASE ' . $database;
+		$sql_str     = 'DROP DATABASE IF EXISTS ' . $database . ';';
 		$this->query = $this->dbh->prepare($sql_str);
 
 		return $this->query->execute();

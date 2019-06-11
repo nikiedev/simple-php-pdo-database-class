@@ -19,6 +19,7 @@
 **[Installation](#installation)**  
 **[Initialization](#initialization)**  
 **[Select](#select)**  
+**[Select Join](#select-join)**  
 **[Insert](#insert)**  
 **[Insert Multiple](#insert-multiple)**  
 **[Last Insert Id](#last-insert-id)**  
@@ -109,6 +110,26 @@ foreach ($selectCustomCols as $rows)
     echo '</p>';
 }
 ```
+
+### Select Join
+
+выбираем данные из таблиц *article*, *authors*, *tags*
+```php
+$db->selectJoin([
+	'article' => [
+		'id AS artid', 'title AS atrtitle', 'content', 'image', 'author_id', 'tag_id', 'published'
+	],
+	'authors' => [
+		'id AS autid', 'name'
+	],
+	'tags' => [
+		'id AS tgid', 'title AS tgtitle'
+	]
+], [
+	'author_id', 'tag_id'
+]);
+```
+во избежание конфликтов для колонок *id* и *title* задаем псевдонимы
 
 ### Insert
 

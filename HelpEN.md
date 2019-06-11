@@ -19,6 +19,7 @@ Go <a href='https://github.com/nikiedev/simple-php-pdo-database-class'>back</a> 
 **[Installation](#installation)**  
 **[Initialization](#initialization)**  
 **[Select](#select)**  
+**[Select Join](#select-join)**  
 **[Insert](#insert)**  
 **[Insert Multiple](#insert-multiple)**  
 **[Last Insert Id](#last-insert-id)**  
@@ -109,6 +110,26 @@ foreach ($selectCustomCols as $rows)
     echo '</p>';
 }
 ```
+
+### Select Join
+
+select data from tables *article*, *authors*, *tags*
+```php
+$db->selectJoin([
+	'article' => [
+		'id AS artid', 'title AS atrtitle', 'content', 'image', 'author_id', 'tag_id', 'published'
+	],
+	'authors' => [
+		'id AS autid', 'name'
+	],
+	'tags' => [
+		'id AS tgid', 'title AS tgtitle'
+	]
+], [
+	'author_id', 'tag_id'
+]);
+```
+to avoid conflicts for columns *id* and *title* give aliases
 
 ### Insert
 

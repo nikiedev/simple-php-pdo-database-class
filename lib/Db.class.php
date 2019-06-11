@@ -153,7 +153,7 @@ class Db
 	 */
 	public function createTable($table, $columns)
 	{
-		$sql_str = 'CREATE TABLE IF NOT EXISTS ' . $this->prefix . $table . ' . (id INT NOT NULL AUTO_INCREMENT ';
+		$sql_str = 'CREATE TABLE IF NOT EXISTS ' . $this->prefix . $table . ' . (id INT(11) NOT NULL AUTO_INCREMENT ';
 		foreach ($columns as $col_key => $col_val)
 		{
 			$sql_str .= ', ' . $col_key . ' ' . $col_val;

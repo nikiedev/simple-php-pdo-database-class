@@ -219,29 +219,24 @@ if($db->createDatabase('articles'))
 
 ### Create Table
 
+если мы напишем так:
 ```php
-$db->createTable("CREATE TABLE IF NOT EXISTS users (
-             id INT(11) NOT NULL AUTO_INCREMENT,
-             firstName VARCHAR(255) NOT NULL,
-             lastName VARCHAR(255) NOT NULL,
-             email VARCHAR(255) NOT NULL,
-             PRIMARY KEY (id))"
+$db->createTable('users', [
+        'firstName' => 'VARCHAR(255) NOT NULL',
+        'lastName' => 'VARCHAR(255) NOT NULL',
+        'email' => 'VARCHAR(255) NOT NULL'
+    ]
 );
 ```
-
-##### Пример использования
-
-```php
-$sql = "CREATE TABLE IF NOT EXISTS users (
-                    id INT(11) NOT NULL AUTO_INCREMENT,
-                    firstName VARCHAR(255) NOT NULL,
-                    lastName VARCHAR(255) NOT NULL,
-                    email VARCHAR(255) NOT NULL,
-                    PRIMARY KEY (id))";
-if($db->createTable($sql)) 
-{
-    echo 'Table users created successfully!';
-}
+такой запрос в итоге выйдет:
+```sql
+CREATE TABLE IF NOT EXISTS users (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    firstName VARCHAR(255) NOT NULL,
+    lastName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
 ### Optimize Table

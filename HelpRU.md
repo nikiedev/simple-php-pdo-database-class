@@ -113,11 +113,11 @@ foreach ($selectCustomCols as $rows)
 
 ### Select Join
 
-выбираем данные из таблиц *article*, *authors*, *tags*
+выбираем данные из таблиц *articles*, *authors*, *tags*
 ```php
-$db->selectJoin([
-	'article' => [
-		'id AS artid', 'title AS atrtitle', 'content', 'image', 'author_id', 'tag_id', 'published'
+$articles = $db->selectJoin([
+	'articles' => [
+		'id AS artid', 'title AS atrtitle', 'content', 'image', 'author_id', 'published'
 	],
 	'authors' => [
 		'id AS autid', 'name'
@@ -125,9 +125,15 @@ $db->selectJoin([
 	'tags' => [
 		'id AS tgid', 'title AS tgtitle'
 	]
-], [
-	'author_id', 'tag_id'
+], ['authors' => [
+        'articles.author_id', 'authors.id'
+    ],
+    'tags' => [
+        'tags.article_id', 'tags.id'
+    ]
 ]);
+// проверяем что получили
+var_dump($articles);die;
 ```
 во избежание конфликтов для колонок *id* и *title* задаем псевдонимы
 

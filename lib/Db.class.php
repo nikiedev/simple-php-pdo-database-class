@@ -302,13 +302,14 @@ class Db
 	 *
 	 * @param array $table_cols - items of the db tables we are retreiving the rows from and joining
 	 * @param array $conditions - associative array representing the WHERE clause filters
+	 * @param array $where (optional)
 	 * @param int $limit (optional) - the amount of rows to return
 	 * @param int $start (optional) - the row to start on, indexed by zero
 	 * @param array $order_by (optional) - an array with order by clause
 	 *
 	 * @return mixed - associate representing the fetched table row, false on failure
 	 */
-	public function selectJoin($table_cols = [], $conditions = [], $limit = null, $start = null, $order_by = [])
+	public function selectJoin($table_cols = [], $conditions = [], $where = [], $limit = null, $start = null, $order_by = [])
 	{
 		// building query string
 		$sql_str = 'SELECT ';
@@ -329,20 +330,44 @@ class Db
 			
 		}
 		
-		$first = true;
-		$i = 0;
-		$table_first = null;
-		
-		foreach ($table_cols as $table_name => $columns)
-		{
-			if ($first)
-			{
-				$sql_str .= ' FROM ' . $this->prefix . $table_name;
-				$table_first = $table_name;
-				$first = false;
-				continue;
+		if (!function_exists('array_key_first')) {
+			function array_key_first(array $arr) {
+				foreach($arr as $key => $unused) {
+					return $key;
+				}
+				return NULL;
 			}
-			$sql_str .= ' JOIN ' . $this->prefix . $table_name . ' ON ' . $this->prefix . $table_first . '.' . $conditions[$i++] . ' = ' . $this->prefix . $table_name . '.id';
+		}
+		
+		$sql_str .= ' FROM ' . $this->prefix . array_key_first($table_cols);
+		
+		foreach ($conditions as $cond_tbl => $cond_cols)
+		{
+			$sql_str .= ' JOIN ' . $this->prefix . $cond_tbl . ' ON ' . $this->prefix . $cond_cols[0] . ' = ' . $cond_cols[1];
+		}
+		
+		$add_and = false;
+		
+		if (!empty($where) and is_array($where))
+		{
+			// append WHERE if necessary
+			$sql_str .= ' WHERE ';
+			// add each clause using parameter array
+			foreach ($where as $key => $val)
+			{
+				// only add AND after the first clause item has been appended
+				if ($add_and)
+				{
+					$sql_str .= ' AND ';
+				}
+				else
+				{
+					$add_and = true;
+				}
+				
+				// append clause item
+				$sql_str .= $key . ' = :' . $key;
+			}
 		}
 		
 		// add the order by clause if we have one
@@ -379,6 +404,16 @@ class Db
 			}
 			
 			$this->query = $this->dbh->prepare($sql_str);
+			
+			if (!empty($where) and is_array($where))
+			{
+				// bind each parameter in the array
+				foreach ($where as $key => $val)
+				{
+					$this->query->bindValue(':' . $key, $val);
+				}
+			}
+			
 			$this->query->execute();
 			
 			// now return the results, depending on if we want all or first row only

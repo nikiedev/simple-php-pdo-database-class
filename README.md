@@ -26,4 +26,4 @@ This is an open-source software. If you have any ideas how to make it better - p
 
 ## Important
 
-Unfortunately, this software is no longer supported. I recommend you to use <a href='https://github.com/izniburak/pdox'>PDOx</a> instead.
+Thanks to all who used my class. It was my first library. Unfortunately, this software is no longer supported. I have no time anymore for this. I use now Codeigniter 4 and Laravel. If you want a clean minimal db library, i recommend you to use <a href='https://github.com/izniburak/pdox'>PDOx</a> instead.
